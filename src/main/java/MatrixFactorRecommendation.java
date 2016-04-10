@@ -27,8 +27,8 @@ public class MatrixFactorRecommendation {
         sc = new JavaSparkContext(conf);
 
         //Reading Data
-        final JavaRDD<String> ratingData = sc.textFile("../resources/rating.csv");
-        JavaRDD<String> productData = sc.textFile("../resources/movieMatrix.csv");
+        final JavaRDD<String> ratingData = sc.textFile("/Users/BladeInShine/Documents/Intellij Project/MovieRecommender/src/main/resources/rating.csv");
+        JavaRDD<String> productData = sc.textFile("/Users/BladeInShine/Documents/Intellij Project/MovieRecommender/src/main/resources/movieMatrix.csv");
 
 
         //Ratings file should be csv file in a (UserID, MovieID, Rating,timestamp) Format
