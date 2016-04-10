@@ -122,7 +122,7 @@ public class MatrixFactorRecommendation {
 
         // To calculate accuracy, write your logic in computeAccuracy model provided below
 
-        MatrixFactorizationModel model = ALS.train(JavaRDD.toRDD(training), 10, 10, 0.01);
+        MatrixFactorizationModel model = ALS.train(JavaRDD.toRDD(training), 5, 15, 0.01);
         System.out.println(computeAccuracy(model, validation));
 
         //After creating tarining model call getRecommendation model and print recommendationd for particular user
