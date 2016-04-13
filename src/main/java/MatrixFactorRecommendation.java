@@ -182,6 +182,8 @@ public class MatrixFactorRecommendation {
         // your logic for generating movie recommendation for particular user
         // Use methods provided by spark to generate recommendation for particular user
 
+        Rating[] recommend = model.recommendProducts(userId, 5);
+
 
         //Getting the users ratings
         JavaRDD<Rating> userRatings = ratings.filter(
@@ -243,7 +245,8 @@ public class MatrixFactorRecommendation {
         //get top 5 from the recommended products.
         recommendations = recommendations.subList(0, 5);
 
-        return recommendations;
+        //return recommendations;
+        return Arrays.asList(recommend);
     }
 
 

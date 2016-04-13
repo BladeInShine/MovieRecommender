@@ -1,8 +1,6 @@
 /**
  * Created by xiaoxiaoli on 4/9/16.
  */
-import java.io.File;
-import java.io.IOException;
 
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
@@ -10,13 +8,17 @@ import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
 import org.apache.mahout.cf.taste.impl.eval.RMSRecommenderEvaluator;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
-import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefUserBasedRecommender;
-import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
+import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
+import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
 import org.apache.mahout.cf.taste.recommender.Recommender;
+import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.apache.mahout.common.RandomUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 public class Evaluator {
 
@@ -35,14 +37,19 @@ public class Evaluator {
             public Recommender buildRecommender(DataModel model)throws TasteException
             {
                 //The Similarity algorithms used in your recommender
-                UserSimilarity userSimilarity = new PearsonCorrelationSimilarity(model);
+                UserSimilarity userSimilarity = new LogLikelihoodSimilarity(model);
+
+                ItemSimilarity itemSimilarity = new LogLikelihoodSimilarity(model);
 
                         /*The Neighborhood algorithms used in your recommender
                          not required if you are evaluating your item based recommendations*/
                 UserNeighborhood neighborhood =new NearestNUserNeighborhood(neighbourhoodSize, userSimilarity, model);
 
                 //Recommender used in your real time implementation
-                Recommender recommender =new GenericBooleanPrefUserBasedRecommender(model, neighborhood, userSimilarity);
+
+
+                Recommender recommender =new GenericUserBasedRecommender(model, neighborhood, userSimilarity);
+                //Recommender recommender = new GenericItemBasedRecommender(model,itemSimilarity);
                 return recommender;
             }
         };
